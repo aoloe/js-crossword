@@ -174,6 +174,8 @@ Vue.component('editor', {
     <input type="number" min="3" max="100" size="3" v-model.number="columns" v-on:keydown.prevent /> x <input type="number" min="3" max="100" size="3" v-model.number="rows" v-on:keydown.prevent/>
 
     <crossword-grid :cells="grid.cells"></crossword-grid>
+    <crossword-clue-input></crossword-clue-input>
+
     <p v-if="!show_help" v-on:click="show_help = !show_help" class="help">🛈 </p>
     <p v-else v-on:click="show_help = !show_help" class="help">🛈<br>{{ $t('help.space') }}<br>{{ $t('help.enter') }}</p>
 

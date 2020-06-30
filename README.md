@@ -4,10 +4,15 @@ Vue.js based crosswords editor and solver.
 
 ## Install
 
-- `wget vue.js`
-- `wget axios`
-- `wget https://unpkg.com/vue-i18n/dist/vue-i18n.js`
-- TinyRest.php
+- `git clone https://github.com/aoloe/js-crossword.git crossword`
+- `cd js`
+  - `wget https://cdn.jsdelivr.net/npm/vue/dist/vue.js`
+  - `wget https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js`
+  - `wget https://unpkg.com/vue-i18n/dist/vue-i18n.js`
+- cd `api`
+  - `mkdir db`
+  - `wget https://raw.githubusercontent.com/aoloe/php-tiny-rest/master/src/TinyRest.php`
+  - create the `api/config.php` file (based on `api/config-demo.php`)
 
 ## Notes
 
