@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>title</title>
+    <link rel="stylesheet" href="css/crossword.css">
+  </head>
+  <body>
+    <!-- page content -->
+    <div id="app">
+      <header>
+        <a href="../" class="logo round" title="Back to the games list">
+        <img src="../images/games-200.png" class="icon">
+        </a>
+      </header>
+      <h1>{{ $t('content.Crosswords') }}</h1>
+      <p v-if="data_store.mode !== 'list'"><button v-on:click="go('list', {'crossword_id': null})">{{ $t('button.BackToTheList') }}</button></p>
+      <player v-if="data_store.mode === 'play'" :crossword_id="crossword_id">
+      </player>
+      <editor v-else-if="data_store.mode === 'edit'" :crossword_id="crossword_id">
+      </editor>
+      <template v-else-if="data_store.mode === 'list'">
+        <crossword-list v-on:a_link_event="go"></crossword-list>
+        <h2>{{ $t('content.CreateAGrid') }}</h2>
+        <p>{{ $t('content.CreateYourOwnGrid') }} <button v-on:click="go('edit')">{{ $t('button.create') }}</button></p>
+        <!--
+        <join-shared></join-shared>
+        -->
+      </template>
+    </div>
+  <script src="js/axios.min.js"></script>
+  <script src="js/vue.js"></script>
+  <script src="js/vue-i18n.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/crossword.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+
+  </script>
+  </body>
+</html>

@@ -1,0 +1,97 @@
+/** header */
+
+header a.logo {
+  display:inline-block;
+  width:3em;
+  height:3em;
+  text-align:center;
+  border: 1px solid black;
+  padding:5px;
+}
+header a.logo.round {
+  border-radius:50px;
+  border: limegreen solid 1px;
+  background-color: palegreen;
+}
+
+header a.logo img {
+  height: 100%;
+}
+
+/** grid */
+
+.grid {
+  border-collapse: collapse;
+}
+
+.grid td {
+  background-clip: padding-box; /* otherwise the td background covers the lines */
+}
+
+.row {
+}
+
+.cell {
+  border: 1px solid black;
+  white-space: nowrap;
+  /* display:inline-flex; */
+  min-width:32px;
+  width:32px;
+  height:32px;
+  position: relative;
+}
+
+.cell sup {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: .6em;
+  color: #1fb1f3;
+}
+
+.cell input {
+  background: transparent;
+  border:none;
+  width: 90%;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.grid .active {
+  background-color:lightgray;
+}
+.grid .black {
+  background-color:black;
+}
+
+/** help */
+
+p.help:first-letter {
+    color: darkblue;
+}
+
+/** clues */
+
+.clue .active {
+  background-color:lightgray;
+}
+
+/* https://stackoverflow.com/a/21261303/5239250 */
+
+.clues dl {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.clues dl dd {
+  display: inline;
+  margin: 0;
+}
+.clues dl dd:after{
+  display: block;
+  content: '';
+}
+.clues dl dt {
+  display: inline-block;
+  font-weight: bold;
+  min-width: 2em;
+}
