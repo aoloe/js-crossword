@@ -46,7 +46,7 @@ const app = new Vue({
     } else {
       this.set_locale('en');
     }
-    document.title = $t('content.Crosswords');
+    document.title = this.$t('content.Crosswords');
     event_hub.$on('set_locale', this.set_locale);
 
     if (localStorage.crossword_id) {
