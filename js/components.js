@@ -14,9 +14,8 @@ Vue.component('crossword-list', {
     <ul class="crossword-list">
       <li v-for="item in paginated_list">
         <a-link href="play" :params="{crossword_id: item.crossword_id}" class = "label">
-        {{item.title}}
+        {{item.title}}</a-link>
         ({{item.language}})
-        </a-link>
         <span v-if="item.work_in_progress" v-bind:title="$t('content.WorkInProgress')">🚧</span>
         <span v-for="(value, key) in active_categories(item.categories, item.title)" v-bind:title="value.legend">{{ value.symbol }}</span>
         <a-link v-if="item.editable" href="edit" :params="{crossword_id: item.crossword_id}">✎</a-link>
