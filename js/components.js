@@ -536,6 +536,9 @@ Vue.component('crossword-current-clue', {
       }
       const [i, j] = cursor.start_selection;
       const cell = this.cells[j][i];
+      if (cell.i === null) {
+        return '';
+      }
       const clue =cursor.direction_horizontal === true ? cell.clue_h : cell.clue_v;
       return cell.i+'. '+(clue === null ? '...' : clue);
     }
