@@ -381,6 +381,7 @@ Vue.component('crossword-cell', {
   mounted() {
     event_hub.$on('focus_to_cursor', this.focus_to_cursor);
     event_hub.$on('edit_clue', this.edit_clue);
+    event_hub.$on('go_to_position', this.go_to_position);
   },
   methods: {
     edit_clue: function() {
@@ -468,6 +469,16 @@ Vue.component('crossword-cell', {
         if (typeof this.$refs.input !== 'undefined') {
           this.$refs.input.focus()
         }
+      }
+    },
+    go_to_position: function(column, row, direction) {
+      if (this.cell.is_equal(column, row)) {
+        if (typeof this.$refs.input !== 'undefined') {
+          this.$refs.input.focus()
+        }
+      }
+      if ((direction === 'h') !== this.data_store.cursor.direction_horizontal) {
+        this.data_store.cursor.switch_direction();
       }
     },
     activate: function() {
@@ -598,7 +609,7 @@ Vue.component('crossword-clues', {
 });
 
 Vue.component('crossword-clue', {
-  template: `<dl>
+  template: `<dl v-on:click="select">
       <dt>{{cell.i}}</dt>
       <dd class="clue">
         <input v-if="edit" v-model="clue" v-on:keyup="keymonitor" v-on:blur="focusmonitor" ref="input">
@@ -661,6 +672,9 @@ Vue.component('crossword-clue', {
         event_hub.$emit('focus_to_cursor');
       }
     },
+    select: function(e) {
+      event_hub.$emit('go_to_position', this.cell.column, this.cell.row, this.direction);
+    }
   }
 });
 
