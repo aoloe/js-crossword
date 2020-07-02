@@ -54,7 +54,6 @@ A format for storing the crossword
 
 ## Todo
 
-- show definition inline (below the grid?)
 - allow italics in definitions
 - references to _external_ pictures (_una gita a...?_)
 - add a picture in a given area (all blacks)
@@ -62,6 +61,7 @@ A format for storing the crossword
 - allow for schemas with _bars_ as limits.
 - ensure a period at the end of the clue.
 - set a different color for the clue number without a clue.
+- make sure that the pagination works correctly.
 
 
 - allow for center simmetry + horizonal + vertical

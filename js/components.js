@@ -66,7 +66,7 @@ Vue.component('crossword-list', {
         list = this.list.filter(f => f.language === this.filter);
       }
       start = this.page * this.per_page;
-      this.page_n = Math.ceil(list.length / this.per_page);
+      this.page_n = Math.floor(list.length / this.per_page);
       list = list.slice(start, start + this.per_page);
       return list;
     }
@@ -115,9 +115,10 @@ Vue.component('crossword-list', {
 Vue.component('player', {
   template: `<div class="player">
     <h2>{{title}}</h2>
-    <crossword-grid v-if="grid !== null" :cells="grid.cells"></crossword-grid>
     <p v-if="!show_help" v-on:click="show_help = !show_help" class="help">🛈 </p>
     <p v-else v-on:click="show_help = !show_help" class="help">🛈<br>{{ $t('help.space') }}</p>
+    <crossword-grid v-if="grid !== null" :cells="grid.cells"></crossword-grid>
+    <crossword-current-clue v-if="grid !== null" :cells="grid.cells"></crossword-current-clue>
     <crossword-clues v-if="grid !== null" :cells="grid.cells"></crossword-clues>
   </div>`,
   props: {
@@ -169,14 +170,15 @@ Vue.component('editor', {
     <template v-for="(value, key) in valid_categories">
       <input type="checkbox" :id="key" v-model="categories[key]">
       <label :for="key" :title="value.legend">{{ value.symbol }}</label>
-    </template>
+    </template><br>
     <input type="number" min="3" max="100" size="3" v-model.number="columns" v-on:keydown.prevent /> x <input type="number" min="3" max="100" size="3" v-model.number="rows" v-on:keydown.prevent/>
+    <span v-if="!show_help" v-on:click="show_help = !show_help" class="help">🛈 </span>
+    <p v-else v-on:click="show_help = !show_help" class="help">🛈<br>{{ $t('help.space') }}<br>{{ $t('help.enter') }}</p>
+
 
     <crossword-grid :cells="grid.cells"></crossword-grid>
     <crossword-clue-input></crossword-clue-input>
-
-    <p v-if="!show_help" v-on:click="show_help = !show_help" class="help">🛈 </p>
-    <p v-else v-on:click="show_help = !show_help" class="help">🛈<br>{{ $t('help.space') }}<br>{{ $t('help.enter') }}</p>
+    <crossword-current-clue v-if="grid_ready" :cells="grid.cells"></crossword-current-clue>
 
     <template v-if="crossword_id">
       <button :disabled="title === '' || language === null" v-on:click="save">{{ $t('button.save') }}</button>
@@ -505,6 +507,35 @@ Vue.component('crossword-grid', {
   mounted() {
   },
   methods: {
+  }
+});
+
+Vue.component('crossword-current-clue', {
+  template: `<div class="current-clue">
+      {{clue}}
+    </div>`,
+  props: {
+    cells: Array
+  },
+  data: function() {
+    return {
+      data_store: Data_store,
+    }
+  },
+  computed: {
+    clue() {
+      if (this.data_store.cursor === null) {
+        return '';
+      }
+      const cursor = this.data_store.cursor;
+      if (cursor .column === null) {
+        return '';
+      }
+      const [i, j] = cursor.start_selection;
+      const cell = this.cells[j][i];
+      const clue =cursor.direction_horizontal === true ? cell.clue_h : cell.clue_v;
+      return cell.i+'. '+(clue === null ? '...' : clue);
+    }
   }
 });
 
