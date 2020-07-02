@@ -368,7 +368,7 @@ Vue.component('editor', {
 Vue.component('crossword-cell', {
   template: `<td class="cell" v-on:click="click_on_cell" v-bind:class="[{black: cell.c === null}, {active: data_store.cursor.in_selection(cell.column, cell.row)}]" ref="cell">
             <sup v-if="cell.i !== null">{{cell.i}}</sup>
-            <input type="text" v-model="cell.c" v-if="cell.c !== null" size="1" minlength="1" maxlength="1" ref="input" v-on:keyup="keymonitor" v-on:keydown="keyfilter" v-on:focus="activate">
+            <input type="text" v-model="cell.c" v-if="cell.c !== null" size="1" minlength="1" maxlength="1" ref="input" v-on:keyup="keymonitor" v-on:keydown="keyfilter" v-on:dblclick="dblclickmonitor" v-on:focus="activate">
   </td>`,
   props: {
     cell: Object
@@ -459,6 +459,9 @@ Vue.component('crossword-cell', {
       if (!this.cell.is_equal(cursor)) {
         event_hub.$emit('focus_to_cursor');
       }
+    },
+    dblclickmonitor: function(e) {
+      this.data_store.cursor.switch_direction();
     },
     focus_to_cursor: function() {
       if (this.cell.is_equal(this.data_store.cursor)) {
