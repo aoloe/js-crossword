@@ -25,6 +25,9 @@ class Crossword
             ORDER BY crossword_id DESC');
         $list = [];
         while ($row = $db_result->fetchArray(SQLITE3_NUM)) {
+            if ($row[4] && ($author !== $row[5])) {
+                continue;
+            }
             $list[] = [
                 'hash' => $row[0],
                 'title' => $row[1],
@@ -82,6 +85,17 @@ class Crossword
         $stmt->bindValue(':author', $author, SQLITE3_TEXT);
         $result = $stmt->execute();
         return [$this->db->lastInsertRowid(), $crossword_hash];
+    }
+
+    /// @return null on success, the original hash otherwise
+    public function delete($crossword_hash, $author) {
+        $stmt = $this->db->prepare('DELETE FROM crossword
+            WHERE crossword_hash = :crossword_hash AND
+                author = :author');
+        $stmt->bindValue(':crossword_hash', $crossword_hash, SQLITE3_TEXT);
+        $stmt->bindValue(':author', $author, SQLITE3_TEXT);
+        $stmt->execute();
+        return ['hash' => $this->db->changes() === 1 ? null : $crossword_hash];
     }
 
     // https://stackoverflow.com/a/2117523/5239250
