@@ -21,7 +21,8 @@ class Crossword
     function get_list($author = null) {
         $db_result = $this->db->query('SELECT
             crossword_hash, title, language, categories, work_in_progress, author
-            FROM crossword');
+            FROM crossword
+            ORDER BY crossword_id DESC');
         $list = [];
         while ($row = $db_result->fetchArray(SQLITE3_NUM)) {
             $list[] = [
