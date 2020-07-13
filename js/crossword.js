@@ -129,6 +129,20 @@ Cursor.prototype.move_left = function() {
     this.column = i;
   }
 }
+Cursor.prototype.move_home = function() {
+  if (this.direction_horizontal) {
+    this.column = this.start_selection[0];
+  } else {
+    this.row = this.start_selection[1];
+  }
+}
+Cursor.prototype.move_end = function() {
+  if (this.direction_horizontal) {
+    this.column = this.end_selection[0];
+  } else {
+    this.row = this.end_selection[1];
+  }
+}
 Cursor.prototype.next = function() {
   return this.direction_horizontal ? this.move_right() : this.move_down();
 }

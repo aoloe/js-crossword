@@ -434,6 +434,10 @@ Vue.component('crossword-cell', {
         cursor.move_down();
       } else if (e.key == 'ArrowLeft') {
         cursor.move_left();
+      } else if (e.key == 'Home') {
+        cursor.move_home();
+      } else if (e.key == 'End') {
+        cursor.move_end();
       } else if (e.key === 'Backspace') {
         cursor.back();
       } else if (e.key === 'Enter' && this.data_store.mode === 'edit') {
