@@ -381,6 +381,7 @@ Vue.component('crossword-cell', {
   mounted() {
     event_hub.$on('focus_to_cursor', this.focus_to_cursor);
     event_hub.$on('edit_clue', this.edit_clue);
+    event_hub.$on('set_cell_value', this.set_value);
     event_hub.$on('go_to_position', this.go_to_position);
   },
   methods: {
@@ -419,7 +420,7 @@ Vue.component('crossword-cell', {
     },
     keyfilter: function(e) {
       // space is used for switching between h and v direction
-      if (e.code == "Space") {
+      if (e.code === 'Space' || e.code === 'Backspace') {
         e.preventDefault();
       }
     },
@@ -439,7 +440,12 @@ Vue.component('crossword-cell', {
       } else if (e.key == 'End') {
         cursor.move_end();
       } else if (e.key === 'Backspace') {
-        cursor.back();
+        if (this.cell.c !== '') {
+          this.cell.c = '';
+        } else {
+          cursor.back();
+          event_hub.$emit('set_cell_value', '');
+        }
       } else if (e.key === 'Enter' && this.data_store.mode === 'edit') {
         if (this.cell.c === null) {
           this.cell.c = '';
@@ -488,6 +494,13 @@ Vue.component('crossword-cell', {
     activate: function() {
       // cursor to the end of the text
       this.data_store.cursor.set_selection(this.cell.column, this.cell.row);
+    },
+    set_value: function(value) {
+      const cell = this.cell;
+      const cursor = this.data_store.cursor;
+      if (cell.column === cursor.column && cell.row === cursor.row) {
+        this.cell.c = value;
+      }
     }
   }
 });
